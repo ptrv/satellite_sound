@@ -92,7 +92,7 @@ thisProcess.recvOSCfunc = { |t, r, msg|
 //		satname.postln;
 		if (satname.notNil) { // e.g. if satID is too high!
 			
-			msg.postcs;
+			//msg.postcs;
 			
 			q.synths.at(satname).set(
 				\id, msg[1], 
@@ -110,6 +110,25 @@ thisProcess.recvOSCfunc = { |t, r, msg|
 );
 
 
+
+(	
+o = OSCresponder(nil, '/RMC', { |t, r, m| 
+	m.postln; // debug
+ 	m[0].postln;
+ 	m[1].postln;
+ 	m[2].postln;
+ 	m[3].postln;
+ 	m[4].postln;
+ 	m[5].postln;
+ 	
+	//Ndef(\LocalInfo).set(\lat,m[2],\lon,m[3]).play;
+	//"RMC on".postln;
+		
+}).add;
+);
+
+
+o.remove;
 
 
 (

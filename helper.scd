@@ -1,3 +1,3 @@
 thisProcess.recvOSCfunc = nil;
-
-q.release
+o.remove;
+q.release;
