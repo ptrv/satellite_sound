@@ -4,6 +4,7 @@
 
 	Peter Vasil
 	TU Berlin, Klanganalyse und -synthese
+	Sommersemester 2011
 
 */
 
@@ -26,7 +27,7 @@ q = ();
 
 q.slotNames = (1..20).collect { |num| ("/SAT" ++ num).asSymbol };
 q.satNames = (0..19).collect { |i| ("sat" ++ (1000 + i)).asSymbol };
-//q.satNames.do { |name| Ndef(name).ar(8); };
+q.satNames.do { |name| Ndef(name).ar(8); Ndef(name).set(\dseq, List.fib(32)+2%5);};
 //q.satNames.do { |name| Pdef(name); };
 
 q.satValues = ();
@@ -52,13 +53,12 @@ thisProcess.recvOSCfunc = { |t, r, msg|
 		if (satname.notNil) { // e.g. if satID is too high!
 			
 			//msg.postcs;
-			
-			q.synths.at(satname).set(
+			Ndef(satname).set(
 				\id, msg[1], 
 				\elev, msg[2], 
 				\azim, msg[3], 
 				\noisy, msg[4]
-			);			
+			).play;			
 			q.satValues.put(satname, [msg[1],msg[2],msg[3],msg[4]]);
 			};
 	};
@@ -69,9 +69,9 @@ thisProcess.recvOSCfunc = { |t, r, msg|
 // Synths
 
 (
-q.synths = ();
+//q.synths = ();
 q.satNames.do {|name|
-	SynthDef(name, { |amp=0.05, azim=30, elev=1,id=10,noisy=22,dseq=#[4,0,1,0,0,1,0]|
+	Ndef(name).source =  { |amp=0.05, azim=30, elev=1,id=10,noisy=22,dseq=#[0,0,0,0,0,0,0,0]|
 		var freq = elev.linexp(1,90,80,240);
 	
 		var vol_id = id.explin(1,20,0.8,0.4);
@@ -100,12 +100,17 @@ q.satNames.do {|name|
 	
 		var src = SinOsc.ar(Gendy3.ar((id%6).rand,(id%6).rand,SinOsc.kr(0.1,0,0.49,0.51),SinOsc.kr(0.13,0,0.49,0.51),freq*2, SinOsc.kr(0.17,0,0.0049,0.0051), SinOsc.kr(0.19,0,0.0049,0.0051), 12, 12, 200, 400), 0, 0.1);
 //		Out.ar(0,PanAz.ar(8,src, normAzim,level,2)*0.5;);
+		
+		// EQ
+		src = BPeakEQ.ar(src, 642, 0.31, 14);
+		src = BHiShelf.ar(src, 1440, 1, 21);
+		
 		Out.ar(0,PanAz.ar(8,src, normAzim,level,2)*Decay.kr(trig2, 0.5)*vol_id*3;);
-	}).send(s);
+	};
 //	q.synths[name.asSymbol] = Synth(name, [\dseq, List.fib(32)%(List.fib(64)%12)]);
 //	q.synths[name.asSymbol] = Synth(name, [\dseq, List.fib(32)%9/3]);
-	q.synths[name.asSymbol] = Synth(name, [\dseq, List.fib(32)+2%5]);
-	q.synths[name.asSymbol].play;
+//	q.synths[name.asSymbol] = Synth(name, [\dseq, List.fib(32)+2%5]);
+//	q.synths[name.asSymbol].play;
 };
 );
 
