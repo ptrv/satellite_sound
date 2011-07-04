@@ -8,6 +8,8 @@
 
 */
 
+// TODO: Control UGen
+
 // Server
 (
 Server.default = s = Server.internal;
@@ -85,7 +87,7 @@ q.satNames.do {|name|
 	
 		var level = elev.linlin(0,90,0.2, 1);
 
-		var imp = noisy.linlin(0,40,0.1, 3);
+		var imp = noisy.linlin(0,40,05, 2);
 		var trig = Impulse.kr(imp);
 		var seq = Dseq(dseq, inf);
 		var trig2 = Demand.kr(trig, 0, seq * 0.4) * trig;
@@ -104,7 +106,7 @@ q.satNames.do {|name|
 		// EQ
 		src = BPeakEQ.ar(src, 642, 0.31, 14);
 		src = BHiShelf.ar(src, 1440, 1, 21);
-		
+
 		src = PanAz.ar(8,src, normAzim,level,2)*Decay.kr(trig2, 0.5)*vol_id*amp*3;
 //		src = FreeVerb.ar(
 //			src, // mono src
