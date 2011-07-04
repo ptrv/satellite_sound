@@ -34,8 +34,8 @@ q.satValues = ();
 q.satNames.do {|name| q.satValues[name.asSymbol]= [0,0,0,0];};
 q.satValues.postcs;
 
-q.seqs = ();
-q.satNames.do {|name| q.seqs[name.asSymbol] = [4,0,0,1,2,1,0,1]; };
+//q.seqs = ();
+//q.satNames.do {|name| q.seqs[name.asSymbol] = [4,0,0,1,2,1,0,1]; };
 
 );
 
@@ -50,8 +50,7 @@ thisProcess.recvOSCfunc = { |t, r, msg|
 	if (q.slotNames.includes(name)) { 
 		satname = q.satNames[msg[1]]; // names start with 1, indices with 0
 //		satname.postln;
-		if (satname.notNil) { // e.g. if satID is too high!
-			
+		if (satname.notNil) {			
 			//msg.postcs;
 			Ndef(satname).set(
 				\id, msg[1], 
@@ -71,10 +70,11 @@ thisProcess.recvOSCfunc = { |t, r, msg|
 (
 //q.synths = ();
 q.satNames.do {|name|
-	Ndef(name).source =  { |amp=0.05, azim=30, elev=1,id=10,noisy=22,dseq=#[0,0,0,0,0,0,0,0]|
+	Ndef(name).source =  { |amp=0.5, azim=30, elev=1,id=10,noisy=22,dseq=#[0,0,0,0,0,0,0,0],mix=0.4, room=0.7, damp = 0.2|
+		
 		var freq = elev.linexp(1,90,80,240);
 	
-		var vol_id = id.explin(1,20,0.8,0.4);
+		var vol_id = id.linlin(1,20,0.6,0.3);
 	
 		var xVal = noisy.linexp(0, 50, 1000, 10000);
 		var yVal = elev.linexp(0, 40, 1000, 10000);
@@ -85,7 +85,7 @@ q.satNames.do {|name|
 	
 		var level = elev.linlin(0,90,0.2, 1);
 
-		var imp = noisy.linexp(0,40,1, 12);
+		var imp = noisy.linlin(0,40,0.1, 3);
 		var trig = Impulse.kr(imp);
 		var seq = Dseq(dseq, inf);
 		var trig2 = Demand.kr(trig, 0, seq * 0.4) * trig;
@@ -105,7 +105,14 @@ q.satNames.do {|name|
 		src = BPeakEQ.ar(src, 642, 0.31, 14);
 		src = BHiShelf.ar(src, 1440, 1, 21);
 		
-		Out.ar(0,PanAz.ar(8,src, normAzim,level,2)*Decay.kr(trig2, 0.5)*vol_id*3;);
+		src = PanAz.ar(8,src, normAzim,level,2)*Decay.kr(trig2, 0.5)*vol_id*amp*3;
+//		src = FreeVerb.ar(
+//			src, // mono src
+//			mix, // mix 0-1
+//			room, // room 0-1
+//			damp // damp 0-1 duh
+//		);
+		Out.ar(0,src;);
 	};
 //	q.synths[name.asSymbol] = Synth(name, [\dseq, List.fib(32)%(List.fib(64)%12)]);
 //	q.synths[name.asSymbol] = Synth(name, [\dseq, List.fib(32)%9/3]);
@@ -113,7 +120,6 @@ q.satNames.do {|name|
 //	q.synths[name.asSymbol].play;
 };
 );
-
 );
 
 // Local data

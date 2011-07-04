@@ -1,5 +1,7 @@
+(
 thisProcess.recvOSCfunc = nil;
-Ndef.clear(3);
+Ndef.clear;
+)
 NdefMixer(s);
 o.remove;
 q.release;
