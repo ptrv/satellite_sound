@@ -29,7 +29,7 @@ q = ();
 
 q.slotNames = (1..20).collect { |num| ("/SAT" ++ num).asSymbol };
 q.satNames = (0..19).collect { |i| ("sat" ++ (1000 + i)).asSymbol };
-q.satNames.do { |name| Ndef(name).ar(8); Ndef(name).set(\dseq, List.fib(32)+2%5);};
+q.satNames.do { |name| Ndef(name).ar(8);};
 //q.satNames.do { |name| Pdef(name); };
 
 q.satValues = ();
@@ -46,7 +46,7 @@ q.satValues.postcs;
 (
 thisProcess.recvOSCfunc = { |t, r, msg| 
 	var name = msg[0];
-	var satname;
+	var satname;		
 	 
 	
 	if (q.slotNames.includes(name)) { 
@@ -72,7 +72,7 @@ thisProcess.recvOSCfunc = { |t, r, msg|
 (
 //q.synths = ();
 q.satNames.do {|name|
-	Ndef(name).source =  { |amp=0.5, azim=30, elev=1,id=10,noisy=22,dseq=#[0,0,0,0,0,0,0,0],mix=0.4, room=0.7, damp = 0.2|
+	Ndef(name).source =  { |amp=0.5, azim=30, elev=1,id=10,noisy=22,mix=0.4, room=0.7, damp = 0.2|
 		
 		var freq = elev.linexp(1,90,80,240);
 	
@@ -89,6 +89,7 @@ q.satNames.do {|name|
 
 		var imp = noisy.linlin(0,40,05, 2);
 		var trig = Impulse.kr(imp);
+		var dseq = Control.names([\dseq]).kr(List.fib(32)+2%5);
 		var seq = Dseq(dseq, inf);
 		var trig2 = Demand.kr(trig, 0, seq * 0.4) * trig;
 	
@@ -114,7 +115,8 @@ q.satNames.do {|name|
 //			room, // room 0-1
 //			damp // damp 0-1 duh
 //		);
-		Out.ar(0,src;);
+		//src;
+		//Out.ar(0,src;);
 	};
 //	q.synths[name.asSymbol] = Synth(name, [\dseq, List.fib(32)%(List.fib(64)%12)]);
 //	q.synths[name.asSymbol] = Synth(name, [\dseq, List.fib(32)%9/3]);
@@ -122,7 +124,16 @@ q.satNames.do {|name|
 //	q.synths[name.asSymbol].play;
 };
 );
+
+
 );
+
+(
+q.satNames.do {|name|
+	Ndef(name).setn(\dseq, List.fib(32)+2%5);
+	//Ndef(name).setn(\dseq, Array.exprand(32, 0, 10));
+};
+)
 
 // Local data
 (	
