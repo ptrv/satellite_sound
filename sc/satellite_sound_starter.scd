@@ -4,13 +4,14 @@
 (
 Server.default = s = Server.local;
 s.options.numAudioBusChannels = 2048;
-
+s.options.memSize = 2 ** 16;
 s.latency = nil;
 s.boot;
 
 )
 
+
 y = SatelliteSound(20);
 y.start;
 y.stop;
-y.stopRemove;
+
