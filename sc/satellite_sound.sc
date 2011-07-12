@@ -1,4 +1,4 @@
-Satellite : Object {
+Satellite {
 	
 	var slotName;
 	var name;
@@ -7,6 +7,7 @@ Satellite : Object {
 	var oscnames;
 	var <oscresponder;
 	var lastcall;
+	var alivecheckinterval=0.5;
 	
 	*new { arg slotname, name, synthname, oscnames; 
 		^super.new.init(slotname, name, synthname, oscnames);
@@ -18,7 +19,7 @@ Satellite : Object {
 		synthname = synthnamearg;
 		oscnames = oscnamesarg;
 		lastcall = 0;
-
+		
 		synth = Synth(synthname).run(false);
 
 		// OSC responder
@@ -30,21 +31,20 @@ Satellite : Object {
 		}).add;
 
 		// Check if satellite is alive
-		SystemClock.sched(0.5,{ arg time;
-			if(lastcall > 3.0, {
+		SystemClock.sched(alivecheckinterval,{ arg time;
+			if(lastcall > (alivecheckinterval*6), {
 				// ("Stop" + name).postln;
 				synth.run(false);
 			},{
 				// ("Start" + name).postln;
 				synth.run(true);
 			});
-			lastcall = lastcall + 0.5;
+			lastcall = lastcall + alivecheckinterval;
 		});
-
 	}
 }
 
-SatelliteSound : Object {
+SatelliteSound {
 	var satellites;
 	var satnumber;
 	*new { arg satnumber; 
@@ -108,22 +108,22 @@ SatelliteSound : Object {
 		};
 
 		CmdPeriod.doOnce({
-			satnumber.do { |i|
-				satellites[i].oscresponder.remove;
-				satellites[i].synth.free;
+			satellites.do { |sat|
+				sat.oscresponder.remove;
+				sat.synth.free;
 			};
 		});
 	}
 
 	start {
-		satnumber.do { |i|
-			satellites[i].synth.run(true);
+		satellites.do { |sat|
+			sat.synth.run(true);
 		};
 	}
 
 	stop {
-		satnumber.do { |i|
-			satellites[i].synth.run(false);
+		satellites.do { |sat|
+			sat.synth.run(false);
 		};
 	}
 }
