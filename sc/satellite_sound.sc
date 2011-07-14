@@ -1,13 +1,14 @@
 Satellite {
-	
+
 	var slotName;
 	var name;
 	var <synth;
 	var synthname;
 	var oscnames;
 	var <oscresponder;
-	var lastcall;
-	var alivecheckinterval=0.5;
+	var timestamp;
+	var <>active;
+	var <>pause = false;
 	
 	*new { arg slotname, name, synthname, oscnames, group; 
 		^super.new.init(slotname, name, synthname, oscnames, group);
@@ -18,28 +19,36 @@ Satellite {
 		name = namearg;
 		synthname = synthnamearg;
 		oscnames = oscnamesarg;
-		lastcall = 0;
-		
+		timestamp = Date.getDate.rawSeconds - 2;
 		synth = Synth(synthname, target: grouparg).run(false);
+		active = false;
 
 		// OSC responder
 		oscresponder = OSCresponderNode(nil, slotName, { |t, r, msg|
-			lastcall = 0;
+			timestamp = Date.getDate.rawSeconds;
+			//timestamp.value.postln;
 			oscnames.do{ arg oscname, i;
 				synth.set(oscname, msg[i+1]);
 			}
 		}).add;
 
 		// Check if satellite is alive
-		SystemClock.sched(alivecheckinterval,{ arg time;
-			if(lastcall > (alivecheckinterval*6), {
+		SystemClock.sched(0.5,{ arg time;
+			var deltaT = Date.getDate.rawSeconds - timestamp;
+			//deltaT.postln;
+
+			if(deltaT > (2.0), {
 				// ("Stop" + name).postln;
 				synth.run(false);
+				active = false;
 			},{
 				// ("Start" + name).postln;
-				synth.run(true);
+				if(pause == false, {
+					synth.run(true);
+					active = true;
+				})
 			});
-			lastcall = lastcall + alivecheckinterval;
+			0.5;
 		});
 	}
 }
@@ -49,13 +58,15 @@ SatelliteSound {
 	var satnumber;
 	var <server;
 	var srcGrp, efxGrp;
+	var activeSatellites;
+	
 	*new { arg satnumber, server; 
 		^super.new.init(satnumber, server);
 	}
 	
 	*initClass {
 		StartUp.add{
-			SynthDef(\sputnik, { |amp=0.5, azim=30, elev=1,id=10,noisy=22,mix=0.4, room=0.7, damp = 0.2|
+			SynthDef(\sputnik, { |amp=0.5, azim=30, elev=1,id=10,noisy=22|
 				var freq = elev.linexp(1,90,80,240);
 				
 				var vol_id = id.linlin(1,20,0.6,0.3);
@@ -93,7 +104,7 @@ SatelliteSound {
 				src = BPeakEQ.ar(src, 642, 0.31, 14);
 				src = BHiShelf.ar(src, 1440, 1, 21);
 	
-				src = PanAz.ar(8,src, normAzim,level,2)*Decay.kr(trig2, 0.5)*vol_id*amp*3;
+				src = PanAz.ar(8, src, normAzim,level,2)*Decay.kr(trig2, 0.5)*vol_id*amp*3;
 	
 				Out.ar(0,src);
 			}).store;
@@ -107,12 +118,14 @@ SatelliteSound {
 		efxGrp= Group.tail(server);
 		
 		satellites = Array.new(satnumber);
+		activeSatellites = Array.new(satnumber);
 
 		satnumber.do { |i|
 			var slot = ("/SAT" ++ (i+1)).asSymbol;
 			var name = ("sat" ++ (1000 + i)).asSymbol;
 
 			satellites.add(Satellite(slot, name, \sputnik, [\id, \elev, \azim, \noisy], srcGrp));
+			activeSatellites.add(false);
 		};
 
 		CmdPeriod.doOnce({
@@ -124,14 +137,35 @@ SatelliteSound {
 	}
 
 	start {
-		satellites.do { |sat|
-			sat.synth.run(true);
+		satellites.do { |sat, i|
+			i.postln;
+			if(activeSatellites[i] == true, {
+				sat.synth.run(true);
+				sat.active = true;
+			});
+			sat.pause = false;
 		};
 	}
 
 	stop {
 		satellites.do { |sat|
+			this.numActiveSatellites;
 			sat.synth.run(false);
+			sat.active = false;
+			sat.pause = true;
 		};
+	}
+
+	numActiveSatellites {
+		var numActiv = 0;
+		satellites.do { |sat, i|
+			if(sat.active, {
+				numActiv = numActiv + 1;
+				activeSatellites.put(i, true);
+			},{
+				activeSatellites.put(i, false);
+			});
+		};
+		^numActiv;
 	}
 }
