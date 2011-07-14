@@ -120,6 +120,10 @@ SatelliteSound {
 		satellites = Array.new(satnumber);
 		activeSatellites = Array.new(satnumber);
 
+		if(server.serverRunning.not, {
+			(this.class.asString++": server not running").error;
+			this.halt;
+		});
 		satnumber.do { |i|
 			var slot = ("/SAT" ++ (i+1)).asSymbol;
 			var name = ("sat" ++ (1000 + i)).asSymbol;
