@@ -2,7 +2,7 @@
 
 ### install
 
-copy `sc/` to Extensions directory.  
+copy or symlink `sc/` to Extensions directory.  
 Mac: `~/Library/Application\ Support/SuperCollider/Extensions`  
 Linux: `~/share/SuperCollider/Extensions`
 
