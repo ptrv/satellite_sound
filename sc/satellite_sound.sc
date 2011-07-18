@@ -26,7 +26,7 @@ Satellite {
 		// OSC responder
 		oscresponder = OSCresponderNode(nil, slotName, { |t, r, msg|
 			timestamp = Date.getDate.rawSeconds;
-			//timestamp.value.postln;
+			// timestamp.postln;
 			oscnames.do{ arg oscname, i;
 				synth.set(oscname, msg[i+1]);
 			}
@@ -59,9 +59,10 @@ SatelliteSound {
 	var <server;
 	var srcGrp, efxGrp;
 	var activeSatellites;
+	var synthname;
 	
-	*new { arg satnumber, server; 
-		^super.new.init(satnumber, server);
+	*new { arg satnumber, synthname, server; 
+		^super.new.init(satnumber, synthname, server);
 	}
 	
 	*initClass {
@@ -104,13 +105,13 @@ SatelliteSound {
 				src = BPeakEQ.ar(src, 642, 0.31, 14);
 				src = BHiShelf.ar(src, 1440, 1, 21);
 	
-				src = PanAz.ar(8, src, normAzim,level,2)*Decay.kr(trig2, 0.5)*vol_id*amp*3;
+				src = PanAz.ar(8, src, normAzim,level,1)*Decay.kr(trig2, 0.5)*vol_id*amp*3;
 	
 				Out.ar(0,src);
 			}).store;
 		}
 	}
-	init { arg satnumberarg, serverarg;
+	init { arg satnumberarg, synthnamearg, serverarg;
 
 		satnumber = satnumberarg;
 		server = serverarg ? Server.default;
@@ -120,6 +121,8 @@ SatelliteSound {
 		satellites = Array.new(satnumber);
 		activeSatellites = Array.new(satnumber);
 
+		synthname = synthnamearg ? \sputnik;
+
 		if(server.serverRunning.not, {
 			(this.class.asString++": server not running").error;
 			this.halt;
@@ -128,7 +131,7 @@ SatelliteSound {
 			var slot = ("/SAT" ++ (i+1)).asSymbol;
 			var name = ("sat" ++ (1000 + i)).asSymbol;
 
-			satellites.add(Satellite(slot, name, \sputnik, [\id, \elev, \azim, \noisy], srcGrp));
+			satellites.add(Satellite(slot, name, synthname, [\id, \elev, \azim, \noisy], srcGrp));
 			activeSatellites.add(false);
 		};
 
