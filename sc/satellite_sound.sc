@@ -37,7 +37,7 @@ Satellite {
 			var deltaT = Date.getDate.rawSeconds - timestamp;
 			//deltaT.postln;
 
-			if(deltaT > (2.0), {
+			if(deltaT > (11.0), {
 				// ("Stop" + name).postln;
 				synth.run(false);
 				active = false;
@@ -60,6 +60,8 @@ SatelliteSound {
 	var srcGrp, efxGrp;
 	var activeSatellites;
 	var synthname;
+	var walkResponder;
+	var lastLon=0, lastLat=0;
 	
 	*new { arg satnumber, synthname, server; 
 		^super.new.init(satnumber, synthname, server);
@@ -81,9 +83,10 @@ SatelliteSound {
 				
 				var level = elev.linlin(0,90,0.2, 1);
 	
-				var imp = noisy.linlin(0,40,0.5, 2);
+				var imp = noisy.linlin(0,40,0.5, 4);
 				var trig = Impulse.kr(imp);
-				var dseq = Control.names([\dseq]).kr(List.fib(32)+2%5);
+				//var dseq = Control.names([\dseq]).kr(List.fib(32)+2%5);
+				var dseq = Control.names([\dseq]).kr([0,0,0,0,0,0,0,0]);
 				var seq = Dseq(dseq, inf);
 				var trig2 = Demand.kr(trig, 0, seq * 0.4) * trig;
 	
@@ -140,7 +143,37 @@ SatelliteSound {
 				sat.oscresponder.remove;
 				sat.synth.free;
 			};
+			walkResponder.remove;
 		});
+		walkResponder = OSCresponder(nil, '/RMC', { |t, r, m| 
+			var numberSequence1, numberSequence2, numBits=32;
+			var numberSequence, factors;
+//			m.postln; // debug
+//		 	m[0].postln;
+//		 	m[1].postln;
+//		 	m[2].postln;
+//		 	m[3].postln;
+//		 	m[4].postln;
+//		 	m[5].postln;
+		 	
+			numberSequence1 = m[2].as32Bits.asBinaryDigits(32);
+			numberSequence2 = m[3].as32Bits.asBinaryDigits(32);
+			numberSequence = Array.newClear(32);
+
+			factors = m[4].as32Bits.asDigits.postln;
+			
+			numBits.do {|i|
+				if( numberSequence1[i] == numberSequence2[i], {
+					numberSequence.put(i, factors.reverse.at(i%factors.size));
+				},{
+					numberSequence.put(i, 0);
+				});
+			};
+			//numberSequence.postln;
+			this.changePatterns(\dseq,numberSequence.reverse);
+			
+		}).add;
+
 	}
 
 	start {
@@ -161,6 +194,13 @@ SatelliteSound {
 			sat.active = false;
 			sat.pause = true;
 		};
+	}
+	
+	changePatterns {|paramName, array|
+		satellites.do { |sat|
+			//"change pattern".postln;
+			sat.synth.setn(paramName, array);
+		};	
 	}
 
 	numActiveSatellites {
