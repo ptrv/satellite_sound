@@ -9,12 +9,13 @@ Satellite {
 	var timestamp;
 	var <>active;
 	var <>pause = false;
+	var remoteVisu;
 	
-	*new { arg slotname, name, synthname, oscnames, group; 
-		^super.new.init(slotname, name, synthname, oscnames, group);
+	*new { arg slotname, name, synthname, oscnames, group, remoteVisu; 
+		^super.new.init(slotname, name, synthname, oscnames, group, remoteVisu);
 	}
 	
-	init { arg slotnamearg, namearg, synthnamearg, oscnamesarg, grouparg;
+	init { arg slotnamearg, namearg, synthnamearg, oscnamesarg, grouparg, remoteVisuArg;
 		slotName = slotnamearg;
 		name = namearg;
 		synthname = synthnamearg;
@@ -22,6 +23,7 @@ Satellite {
 		timestamp = Date.getDate.rawSeconds - 2;
 		synth = Synth(synthname, target: grouparg).run(false);
 		active = false;
+		remoteVisu = remoteVisuArg;
 
 		// OSC responder
 		oscresponder = OSCresponderNode(nil, slotName, { |t, r, msg|
@@ -29,6 +31,7 @@ Satellite {
 			// timestamp.postln;
 			oscnames.do{ arg oscname, i;
 				synth.set(oscname, msg[i+1]);
+				remoteVisu.sendMsg(slotName,oscname,msg[i+1]);
 			}
 		}).add;
 
@@ -62,6 +65,7 @@ SatelliteSound {
 	var synthname;
 	var walkResponder;
 	var lastLon=0, lastLat=0;
+	var remoteAddr;
 	
 	*new { arg satnumber, synthname, server; 
 		^super.new.init(satnumber, synthname, server);
@@ -121,6 +125,8 @@ SatelliteSound {
 		srcGrp= Group.head(server);
 		efxGrp= Group.tail(server);
 		
+		remoteAddr = NetAddr("127.0.0.1", 12000);
+		
 		satellites = Array.new(satnumber);
 		activeSatellites = Array.new(satnumber);
 
@@ -134,7 +140,7 @@ SatelliteSound {
 			var slot = ("/SAT" ++ (i+1)).asSymbol;
 			var name = ("sat" ++ (1000 + i)).asSymbol;
 
-			satellites.add(Satellite(slot, name, synthname, [\id, \elev, \azim, \noisy], srcGrp));
+			satellites.add(Satellite(slot, name, synthname, [\id, \elev, \azim, \noisy], srcGrp, remoteAddr));
 			activeSatellites.add(false);
 		};
 
@@ -160,7 +166,7 @@ SatelliteSound {
 			numberSequence2 = m[3].as32Bits.asBinaryDigits(32);
 			numberSequence = Array.newClear(32);
 
-			factors = m[4].as32Bits.asDigits.postln;
+			factors = m[4].as32Bits.asDigits;
 			
 			numBits.do {|i|
 				if( numberSequence1[i] == numberSequence2[i], {
