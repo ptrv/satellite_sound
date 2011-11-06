@@ -1,23 +1,24 @@
 #!/usr/bin/env python
-# SatelliteLogReader.py
-#
-# Daniel Belasco Rogers 2011 (danbelasco@yahoo.co.uk)
-#
-# takes a pickled file containing OSC bundles, made by
-# PirateSatelliteServer.py and sends the bundles over OSC to a
-# receiving programme, listening on port PORT (currently using 57120)
-# at a regular interval of seconds
-#
-# Takes two arguments: location of log file and sending interval as a
-# positive integer
-#
-# Example: python SatelliteLogReader.py data/test4.log 1 -n
-#
-# This reads from file test4.log and sends the bundles therein every
-# (1) second. The '-n' option is 'no loop' which only sends the file
-# contents once and then exits. If this option is not enabled, the
-# default behaviour is to loop the file indefinately.
-#
+"""
+SatelliteLogReader.py
+
+Daniel Belasco Rogers 2011 (danbelasco@yahoo.co.uk)
+
+takes a pickled file containing OSC bundles, made by
+PirateSatelliteServer.py and sends the bundles over OSC to a
+receiving programme, listening on port PORT (currently using 57120)
+at a regular interval of seconds
+
+Takes two arguments: location of log file and sending interval as a
+positive integer
+
+Example: python SatelliteLogReader.py data/test4.log 1 -n
+
+This reads from file test4.log and sends the bundles therein every
+(1) second. The '-n' option is 'no loop' which only sends the file
+contents once and then exits. If this option is not enabled, the
+default behaviour is to loop the file indefinately.
+"""
 # TODO: sort out looping (re-sending the bundles from the beginning of
 # the file again)
 
@@ -38,7 +39,7 @@ from optparse import OptionParser
 PORT = 57120
 
 
-def openPickle(logfile):
+def open_pickle(logfile):
     """
     Tries to open the pickle file passed through logfile and handles
     errors if necessary
@@ -55,11 +56,11 @@ Did you type the name and location correctly?
     return picklefile
 
 
-def sendBundles(osc, logfile, secs):
+def send_bundles(osc, logfile, secs):
     """
     Attempts to send osc bundles from pickle file and handle errors
     """
-    picklefile = openPickle(logfile)
+    picklefile = open_pickle(logfile)
     while 1:
         try:
             message = pickle.load(picklefile)
@@ -87,6 +88,7 @@ Please select another file.
 
 def main():
     """
+    Main function.
     """
     usage = "usage: %prog filename seconds"
     parser = OptionParser(usage, version="%prog 0.1")
@@ -113,9 +115,9 @@ Please enter a positive integer for the seconds
     osc.connect(send_address) # set the address for all following messages
     if options.noloop == False:
         while 1:
-            sendBundles(osc, logfile, secs)
+            send_bundles(osc, logfile, secs)
     else:
-        sendBundles(osc, logfile, secs)
+        send_bundles(osc, logfile, secs)
         print """'no loop' selected, script ends here
 """
         return
