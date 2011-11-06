@@ -11,11 +11,11 @@ Satellite {
 	var <>pause = false;
 	var remoteVisu;
 	
-	*new { arg slotname, name, synthname, oscnames, group, remoteVisu; 
-		^super.new.init(slotname, name, synthname, oscnames, group, remoteVisu);
+	*new { arg slotname, name, synthname, oscnames, group, visualize, remoteVisu; 
+		^super.new.init(slotname, name, synthname, oscnames, group, visualize, remoteVisu);
 	}
 	
-	init { arg slotnamearg, namearg, synthnamearg, oscnamesarg, grouparg, remoteVisuArg;
+	init { arg slotnamearg, namearg, synthnamearg, oscnamesarg, grouparg, visualizearg, remoteVisuArg;
 		slotName = slotnamearg;
 		name = namearg;
 		synthname = synthnamearg;
@@ -23,15 +23,20 @@ Satellite {
 		timestamp = Date.getDate.rawSeconds - 2;
 		synth = Synth(synthname, target: grouparg).run(false);
 		active = false;
+		//visualize = visualizearg ? true;
 		remoteVisu = remoteVisuArg;
 
-		// OSC responder
+		// OSC responder setting Satellite parameter and
+		// sending to remote visualization application
 		oscresponder = OSCresponderNode(nil, slotName, { |t, r, msg|
 			timestamp = Date.getDate.rawSeconds;
 			// timestamp.postln;
 			oscnames.do{ arg oscname, i;
 				synth.set(oscname, msg[i+1]);
-				remoteVisu.sendMsg(slotName,oscname,msg[i+1]);
+				if(visualizearg, {
+					remoteVisu.sendMsg(slotName,oscname,msg[i+1]);
+				});
+				
 			}
 		}).add;
 
@@ -66,9 +71,10 @@ SatelliteSound {
 	var walkResponder;
 	var lastLon=0, lastLat=0;
 	var remoteAddr;
-	
-	*new { arg satnumber, synthname, server, remoteport=12000, remoteserver="127.0.0.1"; 
-		^super.new.init(satnumber, synthname, server, remoteport, remoteserver);
+	var visualize = true;
+
+	*new { arg satnumber, synthname, server, visualize, remoteport=12000, remoteserver="127.0.0.1"; 
+		^super.new.init(satnumber, synthname, server, visualize, remoteport, remoteserver);
 	}
 	
 	*initClass {
@@ -118,7 +124,7 @@ SatelliteSound {
 			}).store;
 		}
 	}
-	init { arg satnumberarg, synthnamearg, serverarg, remoteportarg, remoteserverarg;
+	init { arg satnumberarg, synthnamearg, serverarg, visualizearg, remoteportarg, remoteserverarg;
 
 		satnumber = satnumberarg;
 		server = serverarg ? Server.default;
@@ -136,11 +142,18 @@ SatelliteSound {
 			(this.class.asString++": server not running").error;
 			this.halt;
 		});
+		
+		visualize = visualizearg ? true;
+		
 		satnumber.do { |i|
 			var slot = ("/SAT" ++ (i+1)).asSymbol;
 			var name = ("sat" ++ (1000 + i)).asSymbol;
 
-			satellites.add(Satellite(slot, name, synthname, [\id, \elev, \azim, \noisy], srcGrp, remoteAddr));
+			satellites.add(
+				Satellite(slot, name, synthname, 
+						[\id, \elev, \azim, \noisy], 
+						srcGrp, visualize, remoteAddr)
+			);
 			activeSatellites.add(false);
 		};
 
@@ -152,8 +165,8 @@ SatelliteSound {
 			walkResponder.remove;
 		});
 		walkResponder = OSCresponder(nil, '/RMC', { |t, r, m| 
-			var numberSequence1, numberSequence2, numBits=32;
-			var numberSequence, factors;
+			
+			var numberSequence;
 //			m.postln; // debug
 //		 	m[0].postln;
 //		 	m[1].postln;
@@ -162,21 +175,9 @@ SatelliteSound {
 //		 	m[4].postln;
 //		 	m[5].postln;
 		 	
-			numberSequence1 = m[2].as32Bits.asBinaryDigits(32);
-			numberSequence2 = m[3].as32Bits.asBinaryDigits(32);
-			numberSequence = Array.newClear(32);
-
-			factors = m[4].as32Bits.asDigits;
-			
-			numBits.do {|i|
-				if( numberSequence1[i] == numberSequence2[i], {
-					numberSequence.put(i, factors.reverse.at(i%factors.size));
-				},{
-					numberSequence.put(i, 0);
-				});
-			};
-			//numberSequence.postln;
-			this.changePatterns(\dseq,numberSequence.reverse);
+		 	numberSequence = this.calculateNumberSequence(m[2], m[3], m[4]);
+			numberSequence.postln;
+			this.changePatterns(\dseq,numberSequence);
 			
 		}).add;
 
@@ -207,6 +208,27 @@ SatelliteSound {
 			//"change pattern".postln;
 			sat.synth.setn(paramName, array);
 		};	
+	}
+	
+	calculateNumberSequence { |num1, num2, num3|
+		var numberSequence1, numberSequence2, numBits=32;
+		var numberSequence, factors;
+		
+		numberSequence1 = num1.as32Bits.asBinaryDigits(32);
+		numberSequence2 = num2.as32Bits.asBinaryDigits(32);
+		numberSequence = Array.newClear(32);
+
+		factors = num3.as32Bits.asDigits;
+		
+		numBits.do {|i|
+			if( numberSequence1[i] == numberSequence2[i], {
+				numberSequence.put(i, factors.reverse.at(i%factors.size));
+			},{
+				numberSequence.put(i, 0);
+			});
+		};
+		^numberSequence.reverse;
+
 	}
 
 	numActiveSatellites {

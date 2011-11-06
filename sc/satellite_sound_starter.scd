@@ -11,7 +11,7 @@ s.boot;
 )
 
 
-y = SatelliteSound(20);
+y = SatelliteSound(20, visualize: true);
 y.start;
 y.stop;
 

@@ -1,13 +1,11 @@
-
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
- <hmtl>
- 
+<html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <meta http-equiv="Content-Style-Type" content="text/css">
-<title>SuperCollider Help -SatelliteSound</title>
+<title></title>
 <meta name="Generator" content="Cocoa HTML Writer">
-<meta name="CocoaVersion" content="824.42">
+<meta name="CocoaVersion" content="1138.23">
 <style type="text/css">
 p.p1 {margin: 0.0px 0.0px 0.0px 0.0px; font: 12.0px Helvetica}
 p.p2 {margin: 0.0px 0.0px 0.0px 0.0px; font: 12.0px Helvetica; min-height: 14.0px}
@@ -20,27 +18,22 @@ p.p8 {margin: 0.0px 0.0px 0.0px 85.0px; text-indent: -85.0px; font: 12.0px Helve
 p.p9 {margin: 0.0px 0.0px 0.0px 57.0px; text-indent: -57.0px; font: 9.0px Monaco; color: #d40000}
 p.p10 {margin: 0.0px 0.0px 0.0px 57.0px; text-indent: -57.0px; font: 9.0px Monaco}
 p.p11 {margin: 0.0px 0.0px 0.0px 57.0px; text-indent: -57.0px; font: 14.0px Helvetica}
-p.p12 {margin: 0.0px 0.0px 0.0px 57.0px; text-indent: -57.0px; font: 14.0px Helvetica; min-height: 17.0px}
-p.p13 {margin: 0.0px 0.0px 0.0px 85.0px; text-indent: -85.0px; font: 12.0px Helvetica; min-height: 14.0px}
-p.p14 {margin: 0.0px 0.0px 0.0px 0.0px; font: 9.0px Monaco; color: #d40000}
-p.p15 {margin: 0.0px 0.0px 0.0px 0.0px; font: 9.0px Monaco}
+p.p12 {margin: 0.0px 0.0px 0.0px 57.0px; text-indent: -57.0px; font: 9.0px Monaco; color: #1200c4}
+p.p13 {margin: 0.0px 0.0px 0.0px 0.0px; font: 10.0px Monaco}
+p.p14 {margin: 0.0px 0.0px 0.0px 0.0px; font: 10.0px Monaco; color: #4057cb}
+p.p15 {margin: 0.0px 0.0px 0.0px 0.0px; font: 10.0px Monaco; min-height: 14.0px}
 span.s1 {font: 18.0px Helvetica}
 span.s2 {color: #1200c4}
-span.s3 {color: #1200c4}
-span.s4 {color: #000000}
-span.s5 {color: #1200c4}
-span.s6 {color: #d40000}
-span.s7 {font: 12.0px Helvetica; color: #000000}
-span.s8 {color: #1200c4}
-span.s9 {color: #1200c4}
+span.s3 {color: #000000}
+span.s4 {color: #d40000}
+span.s5 {color: #bb6050}
 span.Apple-tab-span {white-space:pre}
 </style>
 </head>
- <body>
- 
-<p class="p1"><span class="s1"><b>SatelliteSound<span class="Apple-tab-span">	</span><span class="Apple-tab-span">	</span><span class="Apple-tab-span">	</span></b></span><b>explanation of what SatelliteSound is and/or does</b><span class="s1"><b><span class="Apple-tab-span">	</span></b></span></p>
+<body>
+<p class="p1"><span class="s1"><b>SatelliteSound<span class="Apple-tab-span">	</span><span class="Apple-tab-span">	</span><span class="Apple-tab-span">	</span></b></span><b>GPS satellite sonification</b><span class="s1"><b><span class="Apple-tab-span">	</span></b></span></p>
 <p class="p2"><br></p>
-<p class="p1"><b>Inherits from: </b><b> Object </b></p>
+<p class="p1"><b>Inherits from: Object</b></p>
 <p class="p3"><br></p>
 <p class="p1">More detailed prose description of SatelliteSound.</p>
 <p class="p2"><br></p>
@@ -48,134 +41,82 @@ span.Apple-tab-span {white-space:pre}
 <p class="p2"><br></p>
 <p class="p4"><b>Some Important Issues Regarding SatelliteSound (optional)</b></p>
 <p class="p2"><br></p>
-<p class="p1">Explanation of the issues. For more information see <a href="../Core/Nil.html"><span class="s3">Nil</span></a> and [some other help files].</p>
+<p class="p1">Explanation of the issues. For more information see <a href="../Core/Nil.html"><span class="s2">Nil</span></a> and [some other help files].</p>
 <p class="p2"><br></p>
- 
 <p class="p4"><b>Creation / Class Methods</b></p>
 <p class="p5"><br></p>
-  
-<p class="p6"><b><span class="Apple-tab-span">	</span>*new (satnumber, synthname, server)</b></p>
+<p class="p6"><b><span class="Apple-tab-span">	</span>*new (satnumber, synthname, server, visualize, remoteport, remoteserver)</b></p>
 <p class="p7"><b><span class="Apple-tab-span">	</span></b></p>
 <p class="p6"><b><span class="Apple-tab-span">	</span><span class="Apple-tab-span">	</span></b>Short prose description of method.</p>
- 
-<p class="p8"><span class="Apple-tab-span">	</span><span class="Apple-tab-span">	</span><b>satnumber </b>- Explanation of satnumber. Default value is nil. Other information.</p>
- 
-<p class="p8"><span class="Apple-tab-span">	</span><span class="Apple-tab-span">	</span><b>synthname </b>- Explanation of synthname. Default value is nil. Other information.</p>
- 
-<p class="p8"><span class="Apple-tab-span">	</span><span class="Apple-tab-span">	</span><b>server </b>- Explanation of server. Default value is nil. Other information.</p>
- 
+<p class="p8"><span class="Apple-tab-span">	</span><span class="Apple-tab-span">	</span><b>satnumber </b>- Total number of satellites.</p>
+<p class="p8"><span class="Apple-tab-span">	</span><span class="Apple-tab-span">	</span><b>synthname </b>- Synthdef name to use.</p>
+<p class="p8"><span class="Apple-tab-span">	</span><span class="Apple-tab-span">	</span><b>server </b>- Server. Default value is nil.</p>
+<p class="p8"><span class="Apple-tab-span">	</span><span class="Apple-tab-span">	</span><b>visualize </b>- Set switch for remote visualization. Default is true.</p>
+<p class="p8"><span class="Apple-tab-span">	</span><span class="Apple-tab-span">	</span><b>remoteport </b>- Remote visualization port. Default value is 12000.</p>
+<p class="p8"><span class="Apple-tab-span">	</span><span class="Apple-tab-span">	</span><b>remoteserver </b>- Remote visualization server. Default value is "127.0.0.1".</p>
 <p class="p7"><span class="Apple-tab-span">	</span><span class="Apple-tab-span">	</span></p>
-<p class="p9"><span class="s4"><span class="Apple-tab-span">	</span><span class="Apple-tab-span">	</span></span>// inline example</p>
-<p class="p10"><span class="Apple-tab-span">	</span><span class="Apple-tab-span">	</span>g = <span class="s5">SatelliteSound</span>.new;</p>
-<p class="p10"><span class="Apple-tab-span">	</span><span class="Apple-tab-span">	</span>g.doSomething; <span class="s6">// explanation</span></p>
-<p class="p10"><span class="Apple-tab-span">	</span><span class="Apple-tab-span">	</span>g.cleanUpMethod;</p>
+<p class="p9"><span class="s3"><span class="Apple-tab-span">	</span><span class="Apple-tab-span">	</span></span>// inline example</p>
+<p class="p10"><span class="Apple-tab-span">	</span><span class="Apple-tab-span">	</span>g = <span class="s2">SatelliteSound</span>.new(20);</p>
 <p class="p5"><br></p>
- <p class="p5"><br></p>
- 
-<p class="p6"><b><span class="Apple-tab-span">	</span>*initClass</b></p>
-<p class="p7"><b><span class="Apple-tab-span">	</span></b></p>
-<p class="p6"><b><span class="Apple-tab-span">	</span><span class="Apple-tab-span">	</span></b>Short prose description of method.</p>
- 
-<p class="p7"><span class="Apple-tab-span">	</span><span class="Apple-tab-span">	</span></p>
-<p class="p9"><span class="s4"><span class="Apple-tab-span">	</span><span class="Apple-tab-span">	</span></span>// inline example</p>
-<p class="p10"><span class="Apple-tab-span">	</span><span class="Apple-tab-span">	</span>g = <span class="s5">SatelliteSound</span>.initClass;</p>
-<p class="p10"><span class="Apple-tab-span">	</span><span class="Apple-tab-span">	</span>g.doSomething; <span class="s6">// explanation</span></p>
-<p class="p10"><span class="Apple-tab-span">	</span><span class="Apple-tab-span">	</span>g.cleanUpMethod;</p>
-<p class="p5"><br></p>
- <p class="p5"><br></p>
- 
-<p class="p11"><b>Accessing Instance and Class Variables</b></p>
-<p class="p7"><span class="Apple-tab-span">	</span></p>
-  
-<p class="p6"><b><span class="Apple-tab-span">	</span>server</b></p>
- 
-<p class="p7"><b><span class="Apple-tab-span">	</span></b><span class="Apple-tab-span">	</span></p>
-<p class="p6"><span class="Apple-tab-span">	</span><span class="Apple-tab-span">	</span>Explanation including the type of <b>server </b>and a link to its help file.</p>
-<p class="p6"><span class="Apple-tab-span">	</span><span class="Apple-tab-span">	</span>Default value is nil.</p>
 <p class="p7"><span class="Apple-tab-span">	</span><span class="Apple-tab-span">	</span><span class="Apple-tab-span">	</span><span class="Apple-tab-span">	</span></p>
- 
 <p class="p7"><span class="Apple-tab-span">	</span><span class="Apple-tab-span">	</span><span class="Apple-tab-span">	</span><span class="Apple-tab-span">	</span></p>
- <p class="p11"><b>Doing Some Task (optional)</b></p>
-<p class="p12"><br></p>
-<p class="p6">A short bit of prose explaining something about the task.</p>
-<p class="p7"><span class="Apple-tab-span">	</span></p>
-   
-<p class="p6"><b><span class="Apple-tab-span">	</span>init (satnumberarg, synthnamearg, serverarg)</b></p>
-<p class="p7"><b><span class="Apple-tab-span">	</span></b></p>
-<p class="p6"><b><span class="Apple-tab-span">	</span><span class="Apple-tab-span">	</span></b>Short prose description of method.</p>
- 
-<p class="p8"><span class="Apple-tab-span">	</span><span class="Apple-tab-span">	</span><b>satnumberarg </b>- Explanation of satnumberarg. Default value is nil. Other information.</p>
- 
-<p class="p8"><span class="Apple-tab-span">	</span><span class="Apple-tab-span">	</span><b>synthnamearg </b>- Explanation of synthnamearg. Default value is nil. Other information.</p>
- 
-<p class="p8"><span class="Apple-tab-span">	</span><span class="Apple-tab-span">	</span><b>serverarg </b>- Explanation of serverarg. Default value is nil. Other information.</p>
- 
-<p class="p7"><span class="Apple-tab-span">	</span><span class="Apple-tab-span">	</span></p>
-<p class="p9"><span class="s4"><span class="Apple-tab-span">	</span><span class="Apple-tab-span">	</span></span>// inline example</p>
-<p class="p10"><span class="Apple-tab-span">	</span><span class="Apple-tab-span">	</span>g = <span class="s5">SatelliteSound</span>.init;</p>
-<p class="p10"><span class="Apple-tab-span">	</span><span class="Apple-tab-span">	</span>g.doSomething; <span class="s6">// explanation</span></p>
-<p class="p10"><span class="Apple-tab-span">	</span><span class="Apple-tab-span">	</span>g.cleanUpMethod;</p>
+<p class="p11"><b>Functions</b></p>
 <p class="p5"><br></p>
- <p class="p5"><br></p>
- 
 <p class="p6"><b><span class="Apple-tab-span">	</span>start</b></p>
 <p class="p7"><b><span class="Apple-tab-span">	</span></b></p>
-<p class="p6"><b><span class="Apple-tab-span">	</span><span class="Apple-tab-span">	</span></b>Short prose description of method.</p>
- 
+<p class="p6"><b><span class="Apple-tab-span">	</span><span class="Apple-tab-span">	</span></b>Start synths.</p>
 <p class="p7"><span class="Apple-tab-span">	</span><span class="Apple-tab-span">	</span></p>
-<p class="p9"><span class="s4"><span class="Apple-tab-span">	</span><span class="Apple-tab-span">	</span></span>// inline example</p>
-<p class="p10"><span class="Apple-tab-span">	</span><span class="Apple-tab-span">	</span>g = <span class="s5">SatelliteSound</span>.start;</p>
-<p class="p10"><span class="Apple-tab-span">	</span><span class="Apple-tab-span">	</span>g.doSomething; <span class="s6">// explanation</span></p>
-<p class="p10"><span class="Apple-tab-span">	</span><span class="Apple-tab-span">	</span>g.cleanUpMethod;</p>
+<p class="p9"><span class="s3"><span class="Apple-tab-span">	</span><span class="Apple-tab-span">	</span></span>// inline example</p>
+<p class="p12"><span class="s3"><span class="Apple-tab-span">	</span><span class="Apple-tab-span">	</span>g = </span>SatelliteSound<span class="s3">.start;</span></p>
 <p class="p5"><br></p>
- <p class="p5"><br></p>
- 
+<p class="p5"><br></p>
 <p class="p6"><b><span class="Apple-tab-span">	</span>stop</b></p>
 <p class="p7"><b><span class="Apple-tab-span">	</span></b></p>
-<p class="p6"><b><span class="Apple-tab-span">	</span><span class="Apple-tab-span">	</span></b>Short prose description of method.</p>
- 
+<p class="p6"><b><span class="Apple-tab-span">	</span><span class="Apple-tab-span">	</span></b>Stop synths.</p>
 <p class="p7"><span class="Apple-tab-span">	</span><span class="Apple-tab-span">	</span></p>
-<p class="p9"><span class="s4"><span class="Apple-tab-span">	</span><span class="Apple-tab-span">	</span></span>// inline example</p>
-<p class="p10"><span class="Apple-tab-span">	</span><span class="Apple-tab-span">	</span>g = <span class="s5">SatelliteSound</span>.stop;</p>
-<p class="p10"><span class="Apple-tab-span">	</span><span class="Apple-tab-span">	</span>g.doSomething; <span class="s6">// explanation</span></p>
-<p class="p10"><span class="Apple-tab-span">	</span><span class="Apple-tab-span">	</span>g.cleanUpMethod;</p>
+<p class="p9"><span class="s3"><span class="Apple-tab-span">	</span><span class="Apple-tab-span">	</span></span>// inline example</p>
+<p class="p12"><span class="s3"><span class="Apple-tab-span">	</span><span class="Apple-tab-span">	</span>g = </span>SatelliteSound<span class="s3">.stop;</span></p>
 <p class="p5"><br></p>
- <p class="p5"><br></p>
- 
+<p class="p5"><br></p>
+<p class="p6"><b><span class="Apple-tab-span">	</span>calculateNumberSequence (num1, num2, num3)</b></p>
+<p class="p7"><b><span class="Apple-tab-span">	</span></b></p>
+<p class="p6"><b><span class="Apple-tab-span">	</span><span class="Apple-tab-span">	</span></b>Returns pattern sequence..</p>
+<p class="p8"><span class="Apple-tab-span">	</span><span class="Apple-tab-span">	</span><b>num1 </b>- Local latitude value.</p>
+<p class="p8"><span class="Apple-tab-span">	</span><span class="Apple-tab-span">	</span><b>num2 </b>- Local longitude value.</p>
+<p class="p8"><span class="Apple-tab-span">	</span><span class="Apple-tab-span">	</span><b>num3 </b>- Local eleation value.</p>
+<p class="p7"><span class="Apple-tab-span">	</span><span class="Apple-tab-span">	</span></p>
+<p class="p9"><span class="s3"><span class="Apple-tab-span">	</span><span class="Apple-tab-span">	</span></span>// inline example</p>
+<p class="p12"><span class="s3"><span class="Apple-tab-span">	</span><span class="Apple-tab-span">	</span>g = </span>SatelliteSound(20);</p>
+<p class="p10"><span class="s2"><span class="Apple-tab-span">	</span><span class="Apple-tab-span">	</span></span>a = g.calculateNumberSequence(52.090434, 13.44996, 1.3444);</p>
+<p class="p9"><span class="s3"><span class="Apple-tab-span">	</span><span class="Apple-tab-span">	</span>a.postln; </span>// explanation</p>
+<p class="p5"><br></p>
+<p class="p5"><br></p>
 <p class="p6"><b><span class="Apple-tab-span">	</span>changePatterns (paramName, array)</b></p>
 <p class="p7"><b><span class="Apple-tab-span">	</span></b></p>
-<p class="p6"><b><span class="Apple-tab-span">	</span><span class="Apple-tab-span">	</span></b>Short prose description of method.</p>
- 
-<p class="p8"><span class="Apple-tab-span">	</span><span class="Apple-tab-span">	</span><b>paramName </b>- Explanation of paramName. Default value is nil. Other information.</p>
- 
-<p class="p8"><span class="Apple-tab-span">	</span><span class="Apple-tab-span">	</span><b>array </b>- Explanation of array. Default value is nil. Other information.</p>
- 
+<p class="p6"><b><span class="Apple-tab-span">	</span><span class="Apple-tab-span">	</span></b>Changes synth pattern.</p>
+<p class="p8"><span class="Apple-tab-span">	</span><span class="Apple-tab-span">	</span><b>paramName </b>- The control name.</p>
+<p class="p8"><span class="Apple-tab-span">	</span><span class="Apple-tab-span">	</span><b>array </b>- Array with pattern values.</p>
 <p class="p7"><span class="Apple-tab-span">	</span><span class="Apple-tab-span">	</span></p>
-<p class="p9"><span class="s4"><span class="Apple-tab-span">	</span><span class="Apple-tab-span">	</span></span>// inline example</p>
-<p class="p10"><span class="Apple-tab-span">	</span><span class="Apple-tab-span">	</span>g = <span class="s5">SatelliteSound</span>.changePatterns;</p>
-<p class="p10"><span class="Apple-tab-span">	</span><span class="Apple-tab-span">	</span>g.doSomething; <span class="s6">// explanation</span></p>
-<p class="p10"><span class="Apple-tab-span">	</span><span class="Apple-tab-span">	</span>g.cleanUpMethod;</p>
+<p class="p9"><span class="s3"><span class="Apple-tab-span">	</span><span class="Apple-tab-span">	</span></span>// inline example</p>
+<p class="p12"><span class="s3"><span class="Apple-tab-span">	</span><span class="Apple-tab-span">	</span>g = </span>SatelliteSound<span class="s3">(0;</span></p>
+<p class="p10"><span class="Apple-tab-span">	</span><span class="Apple-tab-span">	</span>g.changePatterns(\dseq, [1,0,2,4,0,0,1,1]); <span class="s4">// explanation</span></p>
 <p class="p5"><br></p>
- <p class="p5"><br></p>
- 
+<p class="p5"><br></p>
+<p class="p5"><br></p>
 <p class="p6"><b><span class="Apple-tab-span">	</span>numActiveSatellites</b></p>
 <p class="p7"><b><span class="Apple-tab-span">	</span></b></p>
-<p class="p6"><b><span class="Apple-tab-span">	</span><span class="Apple-tab-span">	</span></b>Short prose description of method.</p>
- 
+<p class="p6"><b><span class="Apple-tab-span">	</span><span class="Apple-tab-span">	</span></b>returns number of active satellites.</p>
 <p class="p7"><span class="Apple-tab-span">	</span><span class="Apple-tab-span">	</span></p>
-<p class="p9"><span class="s4"><span class="Apple-tab-span">	</span><span class="Apple-tab-span">	</span></span>// inline example</p>
-<p class="p10"><span class="Apple-tab-span">	</span><span class="Apple-tab-span">	</span>g = <span class="s5">SatelliteSound</span>.numActiveSatellites;</p>
-<p class="p10"><span class="Apple-tab-span">	</span><span class="Apple-tab-span">	</span>g.doSomething; <span class="s6">// explanation</span></p>
-<p class="p10"><span class="Apple-tab-span">	</span><span class="Apple-tab-span">	</span>g.cleanUpMethod;</p>
+<p class="p9"><span class="s3"><span class="Apple-tab-span">	</span><span class="Apple-tab-span">	</span></span>// inline example</p>
+<p class="p10"><span class="Apple-tab-span">	</span><span class="Apple-tab-span">	</span>g = <span class="s2">SatelliteSound</span>.numActiveSatellites;</p>
 <p class="p5"><br></p>
- <p class="p5"><br></p>
- 
+<p class="p5"><br></p>
 <p class="p11"><b>Examples</b></p>
 <p class="p3"><br></p>
-<p class="p14">// what this example does</p>
-<p class="p15">e = <span class="s9">SatelliteSound</span>.new;</p>
-<p class="p15">e.instanceMethod(someObject);</p>
-<p class="p15">e.cleanUp;</p>
-<p class="p3"><br></p>
-<p class="p15">...</p>
- </body> </html>
+<p class="p13">s.boot;</p>
+<p class="p14"><span class="s3">y = </span>SatelliteSound<span class="s3">(</span><span class="s5">20</span><span class="s3">);</span></p>
+<p class="p13">y.stop;</p>
+<p class="p13">y.start;</p>
+<p class="p15"><br></p>
+</body>
+</html>
