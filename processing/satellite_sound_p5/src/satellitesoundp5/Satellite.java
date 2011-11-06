@@ -12,7 +12,8 @@ public class Satellite {
 	private Integrator elev;
 	private Integrator azim;
 	private Integrator noise;
-
+	private Integrator elev2;
+	
 	
 	public Satellite(PApplet p, String satName) {
 		this.pa = p;
@@ -22,10 +23,13 @@ public class Satellite {
 		elev = new Integrator(0);
 		azim = new Integrator(0);
 		noise = new Integrator(0);
+		elev2 = new Integrator(0);
 		float attr = 0.2f;
 		float damp = 0.3f;
 		elev.damping = damp;
 		elev.attraction = attr;
+		elev2.damping = damp;
+		elev2.attraction = attr	;
 		azim.damping = damp;
 		azim.attraction = attr;
 		noise.damping = damp;
@@ -36,10 +40,22 @@ public class Satellite {
 		elev.update();
 		azim.update();
 		noise.update();
-		pa.fill(color);
-		float offsetX = elev.value * PApplet.cos(azim.value);
-		float offsetY = elev.value * PApplet.sin(azim.value);
-		pa.ellipse(pa.width/2 + offsetX, pa.height/2 + offsetY, noise.value, noise.value);
+		elev2.update();
+		if(noise.value > 0.5) {
+			pa.fill(color);
+			pa.strokeWeight(1);
+			float elevation = 0;
+			if(SatelliteSoundP5.speakerMode) {
+				elevation = elev2.value;
+				elev.value = elev2.value;
+			} else {
+				elevation = elev.value;
+				elev2.value = elev.value;
+			}
+			float offsetX = elevation * PApplet.cos(azim.value);
+			float offsetY = elevation * PApplet.sin(azim.value);
+			pa.ellipse(pa.width/2 + offsetX, pa.height/2 + offsetY, noise.value, noise.value);
+		}
 	}
 
 	public String getName() {
@@ -53,12 +69,16 @@ public class Satellite {
 	public void setElev(int elev) {
 		this.elev.target(PApplet.map(elev, 0, 90, 50, 300));
 	}
+	public void setElevSpeaker(int elev) {
+		this.elev2.target(elev);
+	}
 
 	public void setAzim(int azim) {
 		this.azim.target(azim*PApplet.DEG_TO_RAD);
 	}
 
 	public void setNoise(int noise) {
-		this.noise.target(PApplet.map(noise, 0, 50, 5, 50));
+		this.noise.target(PApplet.map(noise, 0, 50, 0, 50));
 	}
+	
 }

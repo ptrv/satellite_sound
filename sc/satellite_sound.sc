@@ -176,7 +176,7 @@ SatelliteSound {
 //		 	m[5].postln;
 		 	
 		 	numberSequence = this.calculateNumberSequence(m[2], m[3], m[4]);
-			numberSequence.postln;
+			//numberSequence.postln;
 			this.changePatterns(\dseq,numberSequence);
 			
 		}).add;

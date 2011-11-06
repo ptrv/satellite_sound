@@ -17,6 +17,9 @@ public class SatelliteSoundP5 extends PApplet {
 	
 	PFont font;
 
+	public static boolean speakerMode = false;
+
+	
 	static final private int NUM_SATELLITES = 20;
 
 	public void setup() {
@@ -37,21 +40,36 @@ public class SatelliteSoundP5 extends PApplet {
 
 	public void draw() {
 		background(240);
-		
-		drawCircles();
+		pushMatrix();
+		rotate(-PI/2);
+		translate(-width, 0);
+		if(speakerMode) {
+			drawSpeakers();
+		} else {
+			drawCircles();
+		}
 		
 		Collection<Satellite> sats = satellites.values();
 		for (Satellite s: sats) {
 			s.draw();
 		}
-		
+//		translate(width/2, height/2);
+		popMatrix();
 		fill(0);
 		text("satellite sound", 10, 15);
 		text("ptrv, 2011", width-60, height-10);
 	}
 
+	private void drawSpeakers() {
+		stroke(100);
+		strokeWeight(2);
+		noFill();
+		ellipse(width/2, height/2, 550, 550);
+	}
+
 	private void drawCircles() {
 		stroke(100);
+		strokeWeight(1);
 		noFill();
 		float eW = width/2;
 		float eH = height/2;
@@ -75,6 +93,19 @@ public class SatelliteSoundP5 extends PApplet {
 		}
 		
 	}
+	
+	public void keyPressed() {
+		if(key == 's' || key == 'S') {
+			speakerMode = !speakerMode;
+			if(speakerMode) {
+				Collection<Satellite> sats = satellites.values();
+				for (Satellite s: sats) {
+					s.setElevSpeaker(275);
+				}
+			}
+		}
+	}
+
 	public static void main(String _args[]) {
 		PApplet.main(new String[] { satellitesoundp5.SatelliteSoundP5.class.getName() });
 	}
