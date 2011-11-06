@@ -41,7 +41,7 @@ public class SatelliteSoundP5 extends PApplet {
 	public void draw() {
 		background(240);
 		pushMatrix();
-		rotate(-PI/2);
+		rotate(-HALF_PI);
 		translate(-width, 0);
 		if(speakerMode) {
 			drawSpeakers();
@@ -53,7 +53,6 @@ public class SatelliteSoundP5 extends PApplet {
 		for (Satellite s: sats) {
 			s.draw();
 		}
-//		translate(width/2, height/2);
 		popMatrix();
 		fill(0);
 		text("satellite sound", 10, 15);
@@ -64,7 +63,7 @@ public class SatelliteSoundP5 extends PApplet {
 		stroke(100);
 		strokeWeight(2);
 		noFill();
-		ellipse(width/2, height/2, 550, 550);
+		ellipse(width/2, height/2, 500, 500);
 	}
 
 	private void drawCircles() {
@@ -100,7 +99,7 @@ public class SatelliteSoundP5 extends PApplet {
 			if(speakerMode) {
 				Collection<Satellite> sats = satellites.values();
 				for (Satellite s: sats) {
-					s.setElevSpeaker(275);
+					s.setElevSpeaker(250);
 				}
 			}
 		}
