@@ -1,3 +1,9 @@
+/*
+	satellite_sound.sc
+
+	Peter Vasil
+*/
+
 Satellite {
 
 	var slotName;

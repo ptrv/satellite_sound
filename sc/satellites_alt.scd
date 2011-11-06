@@ -1,3 +1,8 @@
+/*
+	satellites_alt.scd
+
+	Peter Vasil
+*/
 
 //http://new-supercollider-mailing-lists-forums-use-these.2681727.n2.nabble.com/Level-meter-disappearing-td2714612.html
 (

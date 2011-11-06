@@ -1,3 +1,8 @@
+/*
+	satellite_sound_starter.scd
+
+	Peter Vasil
+*/
 
 
 // Server
