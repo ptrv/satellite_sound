@@ -35,7 +35,6 @@ public class SatelliteSoundP5 extends PApplet {
 			Satellite tmpSat = new Satellite(this, satKey);
 			satellites.put(satKey, tmpSat);
 		}
-		
 	}
 
 	public void draw() {
@@ -90,7 +89,6 @@ public class SatelliteSoundP5 extends PApplet {
 		} else if(paramName.compareTo("noisy") == 0) {
 			tmpSat.setNoise(theOscMessage.get(1).intValue());
 		}
-		
 	}
 	
 	public void keyPressed() {

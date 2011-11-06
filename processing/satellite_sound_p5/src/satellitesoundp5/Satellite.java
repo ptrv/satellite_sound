@@ -4,7 +4,6 @@ import processing.core.PApplet;
 
 public class Satellite {
 	
-	
 	private String name;
 	private int id;
 	private PApplet pa;
@@ -13,7 +12,6 @@ public class Satellite {
 	private Integrator azim;
 	private Integrator noise;
 	private Integrator elev2;
-	
 	
 	public Satellite(PApplet p, String satName) {
 		this.pa = p;
@@ -80,5 +78,4 @@ public class Satellite {
 	public void setNoise(int noise) {
 		this.noise.target(PApplet.map(noise, 0, 50, 0, 50));
 	}
-	
 }
