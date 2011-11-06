@@ -2,7 +2,6 @@ package satellitesoundp5;
 
 import java.util.Collection;
 import java.util.HashMap;
-import java.util.Iterator;
 
 import oscP5.OscMessage;
 import oscP5.OscP5;
