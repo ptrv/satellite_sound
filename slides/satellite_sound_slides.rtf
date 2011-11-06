@@ -1,14 +1,18 @@
-{\rtf1\ansi\ansicpg1252\cocoartf1038\cocoasubrtf360
+{\rtf1\ansi\ansicpg1252\cocoartf1138\cocoasubrtf230
 {\fonttbl\f0\fnil\fcharset0 Monaco;}
-{\colortbl;\red255\green255\blue255;\red0\green0\blue191;}
-\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\ql\qnatural\pardirnatural
+{\colortbl;\red255\green255\blue255;\red11\green27\blue191;\red0\green32\blue227;\red206\green28\blue28;
+}
+\deftab560
+\pard\pardeftab560
 
 \f0\fs66 \cf0 \
 \
 		
 \fs70 \cf2 Satellite Sound
-\fs66 \cf0  \
-		\
+\fs66 \cf0  
+\fs70 \cf2 \
+
+\fs66 \cf0 		\
 
 \fs52 \
 		Peter Vasil\
@@ -33,8 +37,10 @@
 	\
 	- GPS Project\
 	  {\field{\*\fldinst{HYPERLINK "http://www.planbperformance.net/dan/mapping.htm"}}{\fldrslt 
-\fs34 http://www.planbperformance.net/dan/mapping.htm}}\
-	- Satellite information \
+\fs34 \cf3 http://www.planbperformance.net/dan/mapping.htm}}
+\fs34 \
+
+\fs42 	- Satellite information \
 	\
 	\
 	\
@@ -43,7 +49,7 @@
 	\
 	\
 	\
-\
+	\
 	\
 	Reading satellite data\
 	\
@@ -53,32 +59,63 @@
 	\
 	\
 	\
+		\
+	\
+\
+\
+\
+	\
+	\
+	
+\fs28 #bundle [/RMC ['15:01:28', 52.51666259765625, 13.416769981384277, 0.11999999731779099, 64.83999633789062], /SAT1 [19, 6, 19, 21], /SAT2 [8, 35, 73, 37], /SAT3 [7, 6, 79, 16], /SAT4 [28, 62, 89, 31], /SAT5 [17, 11, 133, 20], /SAT6 [26, 82, 167, 34], /SAT7 [37, 35, 169, 26], /SAT8 [5, 20, 200, 16], /SAT9 [9, 13, 263, 16], /SAT10 [27, 33, 266, 17], /SAT11 [21, 1, 293, 0], /SAT12 [15, 51, 295, 27], /SAT13 [18, 14, 324, 23]] <class 'OSC.OSCBundle'>\
+
+\fs42 	\
 	\
 	\
 	\
 	\
 	\
+\
+\
 	8 channel sound texture\
 	\
 	- satellite information as parameters\
 		- angle -> spatial positioning\
 		- noise -> modulation\
 		- elevation -> amplitude\
-	- Fibonacci sequence -> rhythm, ...\
 	- Gendy3 UGen\
-	- TODO: control amplitude with pattern\
-	- TODO: use local information\
+	- Use local information for calculating\
+	  rhythm pattern, ...\
+\
 	\
 	\
+	\
+	\
+	\
+	\
+	\
+	Communication flow\
+	\
+	\
+	python script (data)\
+	-> SuperCollider (sound)\
+	-> Processing app (visualization) (optional)\
+					 \
 
 \fs38 \
+\
+\
+\
+\
+\
 \
 \
 \
 \
 \
 			
-\fs152 Demo
+\fs152 Demo\
+
 \fs38 \
 \
 \
@@ -88,24 +125,19 @@
 \
 \
 \
-\
-\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\ql\qnatural\pardirnatural
 
-\fs26 \cf0 \
-\
-\
-\
-\
-\
-(
-\fs38 \
-
-\fs24 Document.open(Document.current.dir ++ "/sc/satellite.scd");
 \fs26 \
+\
+\
+\
+\
+\
+(\
 
-\fs24 Document.open(Document.current.dir ++ "/sc/helper.scd");
-\fs26 \
-)\
+\fs24 Document.open(Document.current.dir ++ "/../sc/satellite_sound_starter.scd");\
+\cf4 //Document.open(Document.current.dir ++ "/sc/helper.scd");\
+
+\fs26 \cf0 )\
 \
 \
 \
