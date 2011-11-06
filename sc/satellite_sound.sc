@@ -11,11 +11,15 @@ Satellite {
 	var <>pause = false;
 	var remoteVisu;
 	
-	*new { arg slotname, name, synthname, oscnames, group, visualize, remoteVisu; 
-		^super.new.init(slotname, name, synthname, oscnames, group, visualize, remoteVisu);
+	*new { arg slotname, name, synthname, oscnames,
+		group, updateinterval, visualize, remoteVisu; 
+		^super.new.init(slotname, name, synthname, oscnames,
+			group, updateinterval, visualize, remoteVisu);
 	}
 	
-	init { arg slotnamearg, namearg, synthnamearg, oscnamesarg, grouparg, visualizearg, remoteVisuArg;
+	init { arg slotnamearg, namearg, synthnamearg, oscnamesarg,
+		grouparg, updateintervalarg, visualizearg, remoteVisuArg;
+
 		slotName = slotnamearg;
 		name = namearg;
 		synthname = synthnamearg;
@@ -45,7 +49,7 @@ Satellite {
 			var deltaT = Date.getDate.rawSeconds - timestamp;
 			//deltaT.postln;
 
-			if(deltaT > (11.0), {
+			if(deltaT > (updateintervalarg+1), {
 				// ("Stop" + name).postln;
 				synth.run(false);
 				active = false;
@@ -73,8 +77,10 @@ SatelliteSound {
 	var remoteAddr;
 	var visualize = true;
 
-	*new { arg satnumber, synthname, server, visualize, remoteport=12000, remoteserver="127.0.0.1"; 
-		^super.new.init(satnumber, synthname, server, visualize, remoteport, remoteserver);
+	*new { arg satnumber, synthname, server, updateinterval,
+		visualize, remoteport=12000, remoteserver="127.0.0.1"; 
+		^super.new.init(satnumber, synthname, server,
+			updateinterval, visualize, remoteport, remoteserver);
 	}
 	
 	*initClass {
@@ -124,7 +130,8 @@ SatelliteSound {
 			}).store;
 		}
 	}
-	init { arg satnumberarg, synthnamearg, serverarg, visualizearg, remoteportarg, remoteserverarg;
+	init { arg satnumberarg, synthnamearg, serverarg, updateintervalarg,
+		visualizearg, remoteportarg, remoteserverarg;
 
 		satnumber = satnumberarg;
 		server = serverarg ? Server.default;
@@ -150,9 +157,12 @@ SatelliteSound {
 			var name = ("sat" ++ (1000 + i)).asSymbol;
 
 			satellites.add(
-				Satellite(slot, name, synthname, 
-						[\id, \elev, \azim, \noisy], 
-						srcGrp, visualize, remoteAddr)
+				Satellite(
+					slot, name, synthname, 
+					[\id, \elev, \azim, \noisy], 
+					srcGrp, updateintervalarg ? 1,
+					visualize, remoteAddr
+				)
 			);
 			activeSatellites.add(false);
 		};
