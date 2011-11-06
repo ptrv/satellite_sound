@@ -7,6 +7,7 @@ import java.util.Iterator;
 import oscP5.OscMessage;
 import oscP5.OscP5;
 import processing.core.PApplet;
+import processing.core.PFont;
 
 
 public class SatelliteSoundP5 extends PApplet {
@@ -14,13 +15,17 @@ public class SatelliteSoundP5 extends PApplet {
 	OscP5 oscP5;
 	
 	HashMap<String, Satellite> satellites;
-//	Satellite[] satellites;
+	
+	PFont font;
 
 	static final private int NUM_SATELLITES = 20;
 
 	public void setup() {
 		size(600, 600);
 		oscP5 = new OscP5(this, 12000);
+		
+		font = loadFont("Ubuntu-48.vlw");
+		textFont(font, 12);
 		
 		satellites = new HashMap<String, Satellite>();
 		for (int i = 0; i < NUM_SATELLITES ; i++) {
@@ -32,7 +37,7 @@ public class SatelliteSoundP5 extends PApplet {
 	}
 
 	public void draw() {
-		background(255);
+		background(240);
 		
 		drawCircles();
 		
@@ -40,6 +45,10 @@ public class SatelliteSoundP5 extends PApplet {
 		for (Satellite s: sats) {
 			s.draw();
 		}
+		
+		fill(0);
+		text("satellite sound", 10, 15);
+		text("ptrv, 2011", width-60, height-10);
 	}
 
 	private void drawCircles() {

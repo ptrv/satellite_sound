@@ -67,8 +67,8 @@ SatelliteSound {
 	var lastLon=0, lastLat=0;
 	var remoteAddr;
 	
-	*new { arg satnumber, synthname, server; 
-		^super.new.init(satnumber, synthname, server);
+	*new { arg satnumber, synthname, server, remoteport=12000, remoteserver="127.0.0.1"; 
+		^super.new.init(satnumber, synthname, server, remoteport, remoteserver);
 	}
 	
 	*initClass {
@@ -118,14 +118,14 @@ SatelliteSound {
 			}).store;
 		}
 	}
-	init { arg satnumberarg, synthnamearg, serverarg;
+	init { arg satnumberarg, synthnamearg, serverarg, remoteportarg, remoteserverarg;
 
 		satnumber = satnumberarg;
 		server = serverarg ? Server.default;
 		srcGrp= Group.head(server);
 		efxGrp= Group.tail(server);
 		
-		remoteAddr = NetAddr("127.0.0.1", 12000);
+		remoteAddr = NetAddr(remoteserverarg, remoteportarg);
 		
 		satellites = Array.new(satnumber);
 		activeSatellites = Array.new(satnumber);
