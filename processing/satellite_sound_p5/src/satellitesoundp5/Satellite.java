@@ -19,7 +19,7 @@ public class Satellite {
 		this.pa = p;
 		this.name = satName;
 		id = 0;
-		color = pa.color(pa.random(255), pa.random(255), pa.random(255));
+		color = pa.color(pa.random(255), pa.random(255), pa.random(255), 200);
 		elev = new Integrator(0);
 		azim = new Integrator(0);
 		noise = new Integrator(0);
@@ -43,7 +43,7 @@ public class Satellite {
 		elev2.update();
 		if(noise.value > 0.5) {
 			pa.fill(color);
-			pa.strokeWeight(1);
+			pa.noStroke();
 			float elevation = 0;
 			if(SatelliteSoundP5.speakerMode) {
 				elevation = elev2.value;
