@@ -10,8 +10,9 @@
 			<attribute name="org.eclipse.jdt.launching.CLASSPATH_ATTR_LIBRARY_PATH_ENTRY" value="satellite_sound_p5/lib/base/core"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry kind="lib" path="lib/base/core/core.jar">
+	<classpathentry kind="lib" path="lib/base/core/core.jar" sourcepath="docs/processing-0197-src.zip">
 		<attributes>
+			<attribute name="javadoc_location" value="jar:platform:/resource/satellite_sound_p5/docs/processing-0197-javadoc.zip!/javadoc/everything"/>
 			<attribute name="org.eclipse.jdt.launching.CLASSPATH_ATTR_LIBRARY_PATH_ENTRY" value="satellite_sound_p5/lib/base/core"/>
 		</attributes>
 	</classpathentry>

@@ -25,7 +25,7 @@ public class SatelliteSoundP5 extends PApplet {
 		satellites = new HashMap<String, Satellite>();
 		for (int i = 0; i < NUM_SATELLITES ; i++) {
 			String satKey = "/SAT"+(i+1);
-			Satellite tmpSat = new Satellite(this);
+			Satellite tmpSat = new Satellite(this, satKey);
 			satellites.put(satKey, tmpSat);
 		}
 		
@@ -34,18 +34,26 @@ public class SatelliteSoundP5 extends PApplet {
 	public void draw() {
 		background(255);
 		
+		drawCircles();
+		
 		Collection<Satellite> sats = satellites.values();
 		for (Satellite s: sats) {
 			s.draw();
 		}
 	}
 
+	private void drawCircles() {
+		stroke(100);
+		noFill();
+		float eW = width/2;
+		float eH = height/2;
+		ellipse(eW, eH, 150, 150);
+		ellipse(eW, eH, 300, 300);
+		ellipse(eW, eH, 450, 450);
+		ellipse(eW, eH, 600, 600);
+	}
+
 	public void oscEvent(OscMessage theOscMessage) {
-		/* print the address pattern and the typetag of the received OscMessage */
-//		print("### received an osc message.");
-//		print(" addrpattern: "+theOscMessage.addrPattern());
-//		println(" typetag: "+theOscMessage.typetag());
-		
 		Satellite tmpSat = satellites.get(theOscMessage.addrPattern());
 		String paramName = theOscMessage.get(0).stringValue();
 		if(paramName.compareTo("id") == 0){

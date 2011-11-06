@@ -112,7 +112,7 @@ SatelliteSound {
 				src = BPeakEQ.ar(src, 642, 0.31, 14);
 				src = BHiShelf.ar(src, 1440, 1, 21);
 	
-				src = PanAz.ar(8, src, normAzim,level,1)*Decay.kr(trig2, 0.5)*vol_id*amp*3;
+				src = PanAz.ar(8, src, normAzim,level,1)*Decay.kr(trig2, 0.5)*vol_id*amp*5;
 	
 				Out.ar(0,src);
 			}).store;

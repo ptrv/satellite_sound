@@ -7,55 +7,58 @@ public class Satellite {
 	
 	private String name;
 	private int id;
-	private int elev;
-	private float azim;
-	private float noise;
 	private PApplet pa;
+	private int color;
+	private Integrator elev;
+	private Integrator azim;
+	private Integrator noise;
+
 	
-	public Satellite(PApplet p) {
+	public Satellite(PApplet p, String satName) {
 		this.pa = p;
+		this.name = satName;
 		id = 0;
-		elev = 0;
-		azim = 0;
-		noise = 0;
+		color = pa.color(pa.random(255), pa.random(255), pa.random(255));
+		elev = new Integrator(0);
+		azim = new Integrator(0);
+		noise = new Integrator(0);
+		float attr = 0.2f;
+		float damp = 0.3f;
+		elev.damping = damp;
+		elev.attraction = attr;
+		azim.damping = damp;
+		azim.attraction = attr;
+		noise.damping = damp;
+		noise.attraction = attr;
 	}
 
 	public void draw() {
-		pa.fill(255, 0, 0);
-		float offsetX = (pa.width/2-20) * PApplet.sin(noise) * PApplet.sin(azim);
-		float offsetY = (pa.height/2-20) * PApplet.sin(noise) * PApplet.cos(azim);
-		pa.ellipse(pa.width/2 + offsetX, pa.height/2 + offsetY, 10, 10);
+		elev.update();
+		azim.update();
+		noise.update();
+		pa.fill(color);
+		float offsetX = elev.value * PApplet.cos(azim.value);
+		float offsetY = elev.value * PApplet.sin(azim.value);
+		pa.ellipse(pa.width/2 + offsetX, pa.height/2 + offsetY, noise.value, noise.value);
 	}
 
 	public String getName() {
 		return name;
 	}
 
-	public void setName(String name) {
-		this.name = name;
-	}
-
-	public int getId() {
-		return id;
-	}
-
 	public void setId(int id) {
 		this.id = id;
 	}
 
-	public int getElev() {
-		return elev;
-	}
-
 	public void setElev(int elev) {
-		this.elev = elev;
+		this.elev.target(PApplet.map(elev, 0, 90, 50, 300));
 	}
 
 	public void setAzim(int azim) {
-		this.azim = PApplet.map(azim, 0,360, 0, 1);
+		this.azim.target(azim*PApplet.DEG_TO_RAD);
 	}
 
 	public void setNoise(int noise) {
-		this.noise = PApplet.map(noise, 0, 50, 0, 1);
+		this.noise.target(PApplet.map(noise, 0, 50, 5, 50));
 	}
 }
