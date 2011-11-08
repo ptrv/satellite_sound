@@ -43,7 +43,7 @@ public class SatelliteSoundP5 extends PApplet {
 		rotate(-HALF_PI);
 		translate(-width, 0);
 		if(speakerMode) {
-			drawSpeakers();
+			drawSpeakerCircle();
 		} else {
 			drawCircles();
 		}
@@ -56,9 +56,13 @@ public class SatelliteSoundP5 extends PApplet {
 		fill(0);
 		text("satellite sound", 10, 15);
 		text("ptrv, 2011", width-60, height-10);
+		if(!speakerMode) {
+			// zero degree
+			text("0\u00B0", width/2, 15);
+		}
 	}
 
-	private void drawSpeakers() {
+	private void drawSpeakerCircle() {
 		stroke(100);
 		strokeWeight(2);
 		noFill();
@@ -75,6 +79,8 @@ public class SatelliteSoundP5 extends PApplet {
 		ellipse(eW, eH, 300, 300);
 		ellipse(eW, eH, 450, 450);
 		ellipse(eW, eH, 600, 600);
+		
+		
 	}
 
 	public void oscEvent(OscMessage theOscMessage) {
