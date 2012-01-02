@@ -108,7 +108,7 @@ SatelliteSound {
 				var imp = noisy.linlin(0,40,0.5, 4);
 				var trig = Impulse.kr(imp);
 				//var dseq = Control.names([\dseq]).kr(List.fib(32)+2%5);
-				var dseq = Control.names([\dseq]).kr([0,0,0,0,0,0,0,0]);
+				var dseq = Control.names([\dseq]).kr(0!32);
 				var seq = Dseq(dseq, inf);
 				var trig2 = Demand.kr(trig, 0, seq * 0.4) * trig;
 	
